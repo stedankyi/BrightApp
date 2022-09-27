@@ -1,0 +1,41 @@
+﻿@page "/"
+@inject HttpClient HttpClient
+
+<PageTitle>Blitter</PageTitle>
+
+<MudLayout>
+    <MudMainContent>
+        <MudContainer Class="mt-4 px-8" MaxWidth="MaxWidth.False">
+            <MudGrid>
+                @foreach (var bleet in Bleets)
+                {
+                    <MudItem>
+                        <MudCard>
+                            <MudCardContent>
+                                <MudText Typo="Typo.h5">@bleet.BleetTitle</MudText>
+                                <MudText Typo="Typo.body2">@bleet.BleetText</MudText>
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton Variant="Variant.Text" Color="Color.Primary">Expand</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+
+@code{
+    private static List<Bleet> Bleets = new List<Bleet>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await HttpClient.GetFromJsonAsync<List<Bleet>>("api/Bleet");
+        if(result != null){
+            Bleets = result;
+        }
+
+    }
+}

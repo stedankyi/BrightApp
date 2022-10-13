@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightApp.Client", "Client\BrightApp.Client.csproj", "{92A4E802-1E50-4E59-9BA3-CF78D47D442B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrightApp.Client", "Client\BrightApp.Client.csproj", "{92A4E802-1E50-4E59-9BA3-CF78D47D442B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightApp.Server", "Server\BrightApp.Server.csproj", "{4A5E2962-6928-4D54-B4FE-06A023A6B2E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrightApp.Server", "Server\BrightApp.Server.csproj", "{4A5E2962-6928-4D54-B4FE-06A023A6B2E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightApp.Shared", "Shared\BrightApp.Shared.csproj", "{9EFDED5F-C925-46A5-BD54-80FC2B247BC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrightApp.Shared", "Shared\BrightApp.Shared.csproj", "{9EFDED5F-C925-46A5-BD54-80FC2B247BC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

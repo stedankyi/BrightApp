@@ -1,41 +1,74 @@
 ﻿@page "/"
-@inject HttpClient HttpClient
+@using System.Text.RegularExpressions
+@inject IDialogService DialogService
+@inject IBleetService BleetService
 
 <PageTitle>Blitter</PageTitle>
 
-<MudLayout>
-    <MudMainContent>
-        <MudContainer Class="mt-4 px-8" MaxWidth="MaxWidth.False">
-            <MudGrid>
-                @foreach (var bleet in Bleets)
+
+
+@if(BleetService.Bleets == null || BleetService.Bleets.Count == 0)
+{
+    <center>
+        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+    </center>
+}
+else
+{
+    <div>
+        <div>
+            <MudContainer Class="mt-8 mx-auto px-8" MaxWidth="MaxWidth.False">
+                
+                @if (showingNewBleetDIalog)
                 {
-                    <MudItem>
-                        <MudCard>
-                            <MudCardContent>
-                                <MudText Typo="Typo.h5">@bleet.BleetTitle</MudText>
-                                <MudText Typo="Typo.body2">@bleet.BleetText</MudText>
-                            </MudCardContent>
-                            <MudCardActions>
-                                <MudButton Variant="Variant.Text" Color="Color.Primary">Expand</MudButton>
-                            </MudCardActions>
-                        </MudCard>
-                    </MudItem>
+                    <NewBleetComponent Bleet="bleet"
+                               OnCancel="() => showingNewBleetDIalog = false" />
                 }
-            </MudGrid>
-        </MudContainer>
-    </MudMainContent>
-</MudLayout>
+                <MudGrid Spacing="1">
+                    <MudItem>
+                        <MudButton OnClick="@(() => showingNewBleetDIalog = !showingNewBleetDIalog)" Variant="Variant.Filled" Color="Color.Info" Style="color: white; width: 200px; height: 150px;">New Bleet</MudButton>
+                    </MudItem>
+                    @foreach (var bleet in BleetService.Bleets)
+                    {
+                        <MudItem>
+                            <MudCard Outlined="true">
+                                <MudCardContent>
+                                    <MudText Typo="Typo.h5">@(Regex.Replace(bleet.BleetTitle, "(?<=^.{26}).*", "..."))</MudText>
+                                    <MudText Typo="Typo.body2">@(Regex.Replace(bleet.BleetText, "(?<=^.{32}).*", "..."))</MudText>
+                                </MudCardContent>
+                                <MudCardActions>
+                                    <MudButton Variant="Variant.Filled" Color="Color.Info" OnClick="@(() => OnExpandButtonClicked(bleet))">Expand</MudButton>
+                                    <MudSpacer />
+                                    <MudIconButton Icon="@Icons.Filled.Favorite" Color="Color.Info" />
+                                </MudCardActions>
+                            </MudCard>
+                        </MudItem>
+                    }
+                </MudGrid>
+            </MudContainer>
+        </div>
+    </div>
+}
+
+
 
 
 @code{
-    private static List<Bleet> Bleets = new List<Bleet>();
+    bool showingNewBleetDIalog = false;
+    Bleet bleet = new Bleet();
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await HttpClient.GetFromJsonAsync<List<Bleet>>("api/Bleet");
-        if(result != null){
-            Bleets = result;
-        }
-
+        await BleetService.GetBleets();
     }
+
+    private async void OnExpandButtonClicked(Bleet bleet)
+    {
+        bool? result = await DialogService.ShowMessageBox(
+            bleet.BleetTitle,
+            (MarkupString)bleet.BleetText,
+            cancelText: "Close");
+        StateHasChanged();
+    }
+
 }

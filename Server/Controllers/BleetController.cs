@@ -7,18 +7,18 @@ namespace BrightApp.Server.Controllers
     [ApiController]
     public class BleetController : ControllerBase
     {
-        private readonly BleetContext _context;
+        private readonly IBleetService _bleetService;
 
-        public BleetController(BleetContext context)
+        public BleetController(IBleetService bleetService)
         {
-            _context = context;
+            _bleetService = bleetService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Bleet>>> GetBleet()
+        public async Task<ActionResult<ServiceResponse<List<Bleet>>>> GetBleets()
         {
-            var bleets = await _context.Bleets.ToListAsync();
-            return Ok(bleets);
+            var result = await _bleetService.GetBleetsAsync();
+            return Ok(result);
         }
     }
 }

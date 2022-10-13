@@ -4,28 +4,37 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-
 <MudLayout>
     <MudAppBar Color="Color.Info" Elevation="0">
-        <MudIconButton Icon="@Icons.Custom.Brands.Twitter" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudText Typo="Typo.h5" Class="ml-3">Blitter</MudText>
-        <MudSpacer />
+        <MudText Typo="Typo.h4"><b>Home</b></MudText>
     </MudAppBar>
-    <MudDrawer Class="px-2" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
-        <NavMenu />
+    <MudDrawer Anchor="Anchor.Left" Width="280px" Class="px-2" @bind-Open="_drawerOpen" Elevation="1">
+        <MudDrawerHeader>
+            <MudIconButton Icon="@Icons.Custom.Brands.Twitter" Size="Size.Large" Color="Color.Info" />
+        </MudDrawerHeader>
+        <LeftNavMenu />
     </MudDrawer>
-    <MudMainContent Class="px-4">
+    <MudDrawer Anchor="Anchor.Right" Width="320px"  Class="px-2" @bind-Open="_drawerOpen" Elevation="1">
+        <MudDrawerHeader>
+            <MudTextField Immediate="true"
+                          @bind-Value="@_searchtext"
+                          Label="Search"
+                          Variant="Variant.Outlined"
+                          Adornment="Adornment.End"
+                          AdornmentIcon="@Icons.Filled.Search"
+                          Margin="Margin.Dense" />
+        </MudDrawerHeader>
+        <RightNavMenu />
+    </MudDrawer>
+    <MudMainContent>
         @Body
     </MudMainContent>
 </MudLayout>
 
-
-
-
-
-
 @code {
+    public string Search { get; set; } = string.Empty;
     bool _drawerOpen = true;
+    string _searchtext = "";
 
     void DrawerToggle()
     {

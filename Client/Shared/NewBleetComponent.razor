@@ -1,0 +1,25 @@
+﻿<EditForm Model="@Bleet">
+    <DataAnnotationsValidator />
+        <MudGrid>
+            <MudItem xs="12" sm="7">
+                <MudCard Outlined="true">
+
+                    <MudCardContent>
+                    <MudTextField Label="Title" HelperText="Max. 64 characters" MaxLength="64"
+                                      @bind-Value="Bleet.BleetTitle" For="@(() => Bleet.BleetTitle)" />
+                    <MudTextField Label="Text" Class="mt-3" Lines="3" HelperText="Max. 280 characters" MaxLength="280"
+                                      @bind-Value="Bleet.BleetText" For="@(() => Bleet.BleetText)" />
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton OnClick="OnCancel">Cancel</MudButton>
+                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Info" Class="ml-auto">Bleet!!!</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+ </MudGrid>
+</EditForm>
+
+@code {
+    [Parameter] public Bleet Bleet { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+}

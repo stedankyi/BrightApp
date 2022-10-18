@@ -1,4 +1,7 @@
-﻿namespace BrightApp.Server.Services.BleetService
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Net.WebSockets;
+
+namespace BrightApp.Server.Services.BleetService
 {
     public class BleetService : IBleetService
     {
@@ -8,14 +11,25 @@
         {
             _context = context;
         }
-        public async Task<ServiceResponse<List<Bleet>>> GetBleetsAsync()
+
+        public async Task<Bleet> CreateBleet(Bleet bleet)
         {
-            var response = new ServiceResponse<List<Bleet>>
-            {
-                Data = await _context.Bleets.ToListAsync()
-            };
+            await _context.Bleets.AddAsync(bleet);
+            _context.SaveChanges();
+            return bleet;
+        }
+
+        public async Task<List<Bleet>> GetBleetsAsync()
+        {
+            var response = await _context.Bleets
+                .OrderByDescending(bleet => bleet.CreatedAt)
+                .Take(10)
+                .ToListAsync();
 
             return response;
         }
+
+
+
     }
 }

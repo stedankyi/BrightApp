@@ -15,9 +15,16 @@ namespace BrightApp.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<Bleet>>>> GetBleets()
+        public async Task<ActionResult<List<Bleet>>> GetBleets()
         {
             var result = await _bleetService.GetBleetsAsync();
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Bleet>> CreateBleet(Bleet bleet)
+        {
+            var result = await _bleetService.CreateBleet(bleet);
             return Ok(result);
         }
     }

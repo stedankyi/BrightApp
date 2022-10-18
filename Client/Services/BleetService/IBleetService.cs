@@ -4,5 +4,7 @@
     {
         List<Bleet> Bleets { get; set; }
         Task GetBleets();
+
+        Task CreateBleet(Bleet bleet);
     }
 }

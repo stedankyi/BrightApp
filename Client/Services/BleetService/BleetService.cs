@@ -11,14 +11,22 @@ namespace BrightApp.Client.Services.BleetService
             _http = http;
         }
         public List<Bleet> Bleets { get; set; } = new List<Bleet>();
+        public Bleet CreatedBleet = new();
+
+        public async Task CreateBleet(Bleet bleet)
+        {
+            var result = await _http.PostAsJsonAsync("api/Bleet", bleet);
+            var response = await result.Content.ReadFromJsonAsync<Bleet>();
+            CreatedBleet = response;
+        }
 
         public async Task GetBleets()
         {
             var result = 
-                await _http.GetFromJsonAsync<ServiceResponse<List<Bleet>>>("api/Bleet");
+                await _http.GetFromJsonAsync<List<Bleet>>("api/Bleet");
 
-            if (result != null && result.Data != null)
-                Bleets = result.Data;
+            if (result != null)
+                Bleets = result;
         }
     }
 }

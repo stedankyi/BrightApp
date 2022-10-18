@@ -2,6 +2,8 @@
 {
     public interface IBleetService
     {
-        Task<ServiceResponse<List<Bleet>>> GetBleetsAsync();
+        Task<List<Bleet>> GetBleetsAsync();
+
+        Task<Bleet> CreateBleet(Bleet bleet);
     }
 }

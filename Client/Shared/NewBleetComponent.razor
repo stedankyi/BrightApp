@@ -1,4 +1,6 @@
-﻿<EditForm Model="@Bleet">
+﻿@inject IBleetService BleetService
+
+<EditForm Model="@Bleet" OnSubmit="@(() => CreateBleet(Bleet))">
     <DataAnnotationsValidator />
         <MudGrid>
             <MudItem xs="12" sm="7">
@@ -22,4 +24,15 @@
 @code {
     [Parameter] public Bleet Bleet { get; set; }
     [Parameter] public EventCallback OnCancel { get; set; }
+
+    async Task CreateBleet(Bleet bleet)
+    {
+        await BleetService.CreateBleet(bleet);
+        ResetBleet();
+    }
+
+    void ResetBleet()
+    {
+        Bleet = new Bleet();
+    }
 }

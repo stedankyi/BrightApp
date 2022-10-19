@@ -4,6 +4,7 @@ global using BrightApp.Server.Data;
 global using BrightApp.Server.Services.BleetService;
 using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using Microsoft.AspNetCore.ResponseCompression;
+using BrightApp.Server.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IBleetService, BleetService>();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -53,5 +55,6 @@ app.UseRouting();
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
+app.MapHub<BleetHub>("/bleethub");
 
 app.Run();

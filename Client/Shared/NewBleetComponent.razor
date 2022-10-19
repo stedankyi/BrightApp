@@ -27,6 +27,7 @@
 
     async Task CreateBleet(Bleet bleet)
     {
+        Bleet.CreatedAt = DateTime.Now;
         await BleetService.CreateBleet(bleet);
         ResetBleet();
     }

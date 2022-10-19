@@ -15,9 +15,7 @@ namespace BrightApp.Client.Services.BleetService
 
         public async Task CreateBleet(Bleet bleet)
         {
-            var result = await _http.PostAsJsonAsync("api/Bleet", bleet);
-            var response = await result.Content.ReadFromJsonAsync<Bleet>();
-            CreatedBleet = response;
+            await _http.PostAsJsonAsync("api/Bleet", bleet);
         }
 
         public async Task GetBleets()

@@ -1,7 +1,10 @@
 ﻿@page "/"
 @using System.Text.RegularExpressions
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager Navigation
 @inject IDialogService DialogService
 @inject IBleetService BleetService
+@implements IAsyncDisposable
 
 <PageTitle>Blitter</PageTitle>
 
@@ -54,12 +57,24 @@ else
 
 
 @code{
+    HubConnection? hubConnection;
     bool showingNewBleetDIalog = false;
     Bleet bleet = new Bleet();
 
     protected override async Task OnInitializedAsync()
     {
+        hubConnection = new HubConnectionBuilder()
+        .WithUrl(Navigation.ToAbsoluteUri("/bleethub"))
+        .Build();
+
+        hubConnection.On("ReceiveBleets", async () => { 
+            await BleetService.GetBleets();
+            StateHasChanged();
+        } );
+
         await BleetService.GetBleets();
+
+        await hubConnection.StartAsync();
     }
 
     private async void OnExpandButtonClicked(Bleet bleet)
@@ -69,6 +84,17 @@ else
             (MarkupString)bleet.BleetText,
             cancelText: "Close");
         StateHasChanged();
+    }
+
+    public bool IsConnected =>
+        hubConnection?.State == HubConnectionState.Connected;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
     }
 
 }

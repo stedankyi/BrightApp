@@ -17,7 +17,7 @@ namespace BrightApp.Shared
 
         public string CreatorUsername { get; set; } = string.Empty;
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
 
         [Required]
         [StringLength(280, ErrorMessage = "Bleet cannot be more than 280 characters")]

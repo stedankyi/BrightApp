@@ -10,7 +10,7 @@
 
 
 
-@if(BleetService.Bleets == null || BleetService.Bleets.Count == 0)
+@if (BleetService.Bleets == null || BleetService.Bleets.Count == 0)
 {
     <center>
         <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
@@ -20,23 +20,21 @@ else
 {
     <div>
         <div>
-            <MudContainer Class="mt-8 mx-auto px-8" MaxWidth="MaxWidth.False">
-                
-                @if (showingNewBleetDIalog)
+            @if (showingNewBleetDIalog)
+            {
+                <NewBleetComponent Bleet="bleet"
+                           OnCancel="() => showingNewBleetDIalog = false" />
+            }
+            <MudGrid Spacing="1">
+                <MudItem>
+                    <MudButton OnClick="@(() => showingNewBleetDIalog = !showingNewBleetDIalog)" Variant="Variant.Filled" Color="Color.Info" Style="color: white; width: 200px; height: 150px;">New Bleet</MudButton>
+                </MudItem>
+                @foreach (var bleet in BleetService.Bleets)
                 {
-                    <NewBleetComponent Bleet="bleet"
-                               OnCancel="() => showingNewBleetDIalog = false" />
-                }
-                <MudGrid Spacing="1">
                     <MudItem>
-                        <MudButton OnClick="@(() => showingNewBleetDIalog = !showingNewBleetDIalog)" Variant="Variant.Filled" Color="Color.Info" Style="color: white; width: 200px; height: 150px;">New Bleet</MudButton>
-                    </MudItem>
-                    @foreach (var bleet in BleetService.Bleets)
-                    {
-                        <MudItem>
-                            <MudCard Outlined="true">
-                                <MudCardContent>
-                                    <MudText Typo="Typo.h5">@(Regex.Replace(bleet.BleetTitle, "(?<=^.{26}).*", "..."))</MudText>
+                        <MudCard Outlined="true">
+                            <MudCardContent>
+                                <MudText Typo="Typo.h5">@(Regex.Replace(bleet.BleetTitle, "(?<=^.{26}).*", "..."))</MudText>
                                     <MudText Typo="Typo.body2">@(Regex.Replace(bleet.BleetText, "(?<=^.{32}).*", "..."))</MudText>
                                 </MudCardContent>
                                 <MudCardActions>
@@ -46,9 +44,8 @@ else
                                 </MudCardActions>
                             </MudCard>
                         </MudItem>
-                    }
-                </MudGrid>
-            </MudContainer>
+                }
+            </MudGrid>
         </div>
     </div>
 }
@@ -56,7 +53,7 @@ else
 
 
 
-@code{
+@code {
     HubConnection? hubConnection;
     bool showingNewBleetDIalog = false;
     Bleet bleet = new Bleet();
@@ -67,10 +64,11 @@ else
         .WithUrl(Navigation.ToAbsoluteUri("/bleethub"))
         .Build();
 
-        hubConnection.On("ReceiveBleets", async () => { 
+        hubConnection.On("ReceiveBleets", async () =>
+        {
             await BleetService.GetBleets();
             StateHasChanged();
-        } );
+        });
 
         await BleetService.GetBleets();
 

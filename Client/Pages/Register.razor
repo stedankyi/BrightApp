@@ -1,0 +1,88 @@
+﻿@page "/register"
+@using System.ComponentModel.DataAnnotations
+@inject ILocalStorageService LocalStorage
+@inject IAuthService AuthService
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+
+<PageTitle>Register</PageTitle>
+
+
+<MudTabs Elevation="0" Rounded="true" PanelClass="pa-6">
+    <MudTabPanel Text="Register">
+        <ChildContent>
+            <EditForm Model="@register" OnValidSubmit="(() => RegisterUser(register))">
+                <DataAnnotationsValidator />
+                <MudGrid>
+                    <MudItem xs="12" sm="7">
+                        <MudCard>
+                            <MudCardContent>
+                                <MudTextField Label="First name" HelperText="Enter your first name"
+                                              @bind-Value="register.FirstName" For="@(() => register.FirstName)" />
+
+                                <MudTextField Label="Last name" HelperText="Enter your last name"
+                                              @bind-Value="register.LastName" For="@(() => register.LastName)" />
+
+                                <MudTextField Label="Username" HelperText="Enter your preferred username"
+                                              @bind-Value="register.Username" For="@(() => register.Username)" />
+
+                                <MudTextField Label="Email" HelperText="Enter your email"
+                                              @bind-Value="register.Email" For="@(() => register.Email)" />
+
+                                <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                                              @bind-Value="register.Password" For="@(() => register.Password)" InputType="InputType.Password" />
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Info" Class="ml-auto">Register</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                </MudGrid>
+            </EditForm>
+        </ChildContent>
+    </MudTabPanel>
+    <MudTabPanel Text="Login">
+        <ChildContent>
+            <EditForm Model="@login" OnValidSubmit="(() => LoginUser(login))">
+                <DataAnnotationsValidator />
+                <MudGrid>
+                    <MudItem xs="12" sm="7">
+                        <MudCard>
+                            <MudCardContent>
+                                <MudTextField Label="Username" HelperText="Enter your username"
+                                              @bind-Value="login.Username" For="@(() => login.Username)" />
+
+                                <MudTextField Label="Password" HelperText="Input your password" Class="mt-3"
+                                              @bind-Value="login.Password" For="@(() => login.Password)" InputType="InputType.Password" />
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Info" Class="ml-auto">Login</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                </MudGrid>
+            </EditForm>
+        </ChildContent>
+    </MudTabPanel>
+</MudTabs>
+
+
+
+
+@code {
+    private User register = new User();
+    private UserLogin login = new UserLogin();
+
+    private async void RegisterUser(User user)
+    {
+        await AuthService.Register(user);
+    }
+
+    private async void LoginUser(UserLogin user)
+    {
+        await AuthService.Login(user);
+        Console.WriteLine("login is working");
+
+    }
+
+}

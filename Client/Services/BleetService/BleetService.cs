@@ -1,5 +1,4 @@
-﻿using BrightApp.Shared;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 
 namespace BrightApp.Client.Services.BleetService
 {

@@ -1,17 +1,34 @@
-﻿<MudNavMenu Bordered="true" Rounded="true">
+﻿
+<MudNavMenu Bordered="true" Rounded="true">
+
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">
         <MudText Typo="Typo.h6">
             Home
         </MudText>
     </MudNavLink>
-    <MudNavLink Href="/profile" Disabled="true" Match="NavLinkMatch.All" Icon="@Icons.Material.Rounded.AccountCircle">
-        <MudText Typo="Typo.h6">
-            Profile
-        </MudText>
-    </MudNavLink>
+
+    <AuthorizeView>
+        <NotAuthorized>
+            <MudNavLink Href="/register" Match="NavLinkMatch.All" Icon="@Icons.Filled.Login">
+                <MudText Typo="Typo.h6">
+                    Login
+                </MudText>
+            </MudNavLink>
+        </NotAuthorized>
+        <Authorized>
+            <MudNavLink Href="/profile" Disabled="true" Match="NavLinkMatch.All" Icon="@Icons.Material.Rounded.AccountCircle">
+                <MudText Typo="Typo.h6">
+                    Profile
+                </MudText>
+            </MudNavLink>
+        </Authorized>
+    </AuthorizeView>
+
     <MudNavLink Href="/about" Disabled="true" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.QuestionMark">
         <MudText Typo="Typo.h6">
             About
         </MudText>
     </MudNavLink>
+
+    <MudDivider />
 </MudNavMenu>

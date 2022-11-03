@@ -1,6 +1,7 @@
 ﻿global using BrightApp.Shared;
 global using Microsoft.EntityFrameworkCore;
 global using BrightApp.Server.Data;
+global using BrightApp.Server.Services.AuthService;
 global using BrightApp.Server.Services.BleetService;
 using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -24,7 +25,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IBleetService, BleetService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddSignalR();
+
 
 var app = builder.Build();
 

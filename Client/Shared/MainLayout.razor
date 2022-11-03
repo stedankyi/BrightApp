@@ -14,7 +14,7 @@
         </MudDrawerHeader>
         <LeftNavMenu />
     </MudDrawer>
-    <MudDrawer Anchor="Anchor.Right" Width="320px"  Class="px-2" @bind-Open="_drawerOpen" Elevation="1">
+    <MudDrawer Anchor="Anchor.Right" Width="320px" Class="px-2" @bind-Open="_drawerOpen" Elevation="1">
         <MudDrawerHeader>
             <MudTextField Immediate="true"
                           @bind-Value="@_searchtext"
@@ -27,7 +27,9 @@
         <RightNavMenu />
     </MudDrawer>
     <MudMainContent>
-        @Body
+        <MudContainer Class="mt-8 mx-auto px-8" MaxWidth="MaxWidth.False">
+            @Body
+        </MudContainer>
     </MudMainContent>
 </MudLayout>
 

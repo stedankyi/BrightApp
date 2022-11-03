@@ -1,4 +1,5 @@
 ﻿using BrightApp.Server.Hubs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore.Query.Internal;
@@ -7,6 +8,7 @@ namespace BrightApp.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class BleetController : ControllerBase
     {
         private readonly IHubContext<BleetHub> _bleetHubContext;
